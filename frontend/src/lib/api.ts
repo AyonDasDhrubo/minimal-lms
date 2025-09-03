@@ -7,7 +7,6 @@ async function request<T>(path: string, options?: RequestInit): Promise<T> {
   const res = await fetch(`${API_BASE}${path}`, {
     ...options,
     headers: {
-      "Content-Type": "application/json",
       ...(options?.headers || {}),
     },
     cache: "no-store",
@@ -18,21 +17,71 @@ async function request<T>(path: string, options?: RequestInit): Promise<T> {
     throw new Error(errText || `HTTP ${res.status}`);
   }
 
-  return res.json();
+  if (res.status === 204) return undefined as unknown as T;
+
+  const contentType = res.headers.get("content-type") || "";
+  if (contentType.includes("application/json")) return res.json();
+  return (await res.text()) as unknown as T;
 }
 
 export const api = {
+  // Generic methods
   get: <T>(path: string) => request<T>(path),
-  post: <T>(path: string, body: unknown) =>
-    request<T>(`/${path.replace(/^\/+/, "")}`, { // ensure no double slash
+  postJson: <T>(path: string, body: unknown) =>
+    request<T>(path, {
       method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     }),
-  put: <T>(path: string, body: unknown) =>
-    request<T>(`/${path.replace(/^\/+/, "")}`, {
+  putJson: <T>(path: string, body: unknown) =>
+    request<T>(path, {
       method: "PUT",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     }),
   delete: <T>(path: string) =>
-    request<T>(`/${path.replace(/^\/+/, "")}`, { method: "DELETE" }),
+    request<T>(path, { method: "DELETE" }),
+
+  // Courses
+  getCourses: () => api.get("/api/courses"),
+  getCourse: (id: string) => api.get(`/api/courses/${id}`),
+  createCourse: (body: { title: string; price: number; description: string; thumbnail: string }) =>
+    api.postJson("/api/courses", body),
+  updateCourse: (id: string, body: any) => {
+    if (body instanceof FormData) {
+      return fetch(`${API_BASE}/api/courses/${id}`, {
+        method: "PUT",
+        body,
+      }).then(async (res) => {
+        if (!res.ok) throw new Error(await res.text());
+        return res.json();
+      });
+    } else {
+      return api.putJson(`/api/courses/${id}`, body);
+    }
+  },
+  deleteCourse: (id: string) => api.delete(`/api/courses/${id}`),
+
+  // Modules
+  getModules: (courseId: string) => api.get(`/api/modules/course/${courseId}`),
+  createModule: (payload: { courseId: string; title: string }) =>
+    api.postJson("/api/modules", payload),
+  updateModule: (id: string, body: { title: string }) =>
+    api.putJson(`/api/modules/${id}`, body),
+  deleteModule: (id: string) => api.delete(`/api/modules/${id}`),
+
+  // Lectures
+  getLecturesByModule: (moduleId: string) =>
+    api.get(`/api/lectures/module/${moduleId}`),
+  getAllLectures: () =>
+    api.get("/api/lectures"), // <-- NEW: fetch all lectures
+  createLecture: (formData: FormData) =>
+    fetch(`${API_BASE}/api/lectures`, {
+      method: "POST",
+      body: formData,
+    }).then(async (res) => {
+      if (!res.ok) throw new Error(await res.text());
+      return res.json();
+    }),
+  deleteLecture: (id: string) => api.delete(`/api/lectures/${id}`),
 };

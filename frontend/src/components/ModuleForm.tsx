@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-//import axios from "axios";
 import { api } from "../lib/api";
 
 interface Props {
@@ -15,11 +14,13 @@ const ModuleForm: React.FC<Props> = ({ courseId, onSuccess }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await api.post("/api/modules", { courseId, title });
+      // Use the new api.createModule method
+      await api.createModule({ courseId, title });
       setTitle("");
       onSuccess();
     } catch (err) {
-      console.error(err);
+      console.error("Error creating module:", err);
+      alert("Failed to create module. Check console for details.");
     }
   };
 
@@ -29,10 +30,14 @@ const ModuleForm: React.FC<Props> = ({ courseId, onSuccess }) => {
         type="text"
         placeholder="Module Title"
         value={title}
-        onChange={e => setTitle(e.target.value)}
+        onChange={(e) => setTitle(e.target.value)}
         className="border p-2 rounded w-full"
+        required
       />
-      <button type="submit" className="px-4 py-2 bg-green-600 text-white rounded">
+      <button
+        type="submit"
+        className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition"
+      >
         Add Module
       </button>
     </form>

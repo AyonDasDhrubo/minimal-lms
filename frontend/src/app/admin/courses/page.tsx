@@ -16,7 +16,7 @@ export default function AdminCoursesPage() {
 
   useEffect(()=>{ fetchCourses(); }, []);
 
-  const handleSaved = (course: Course) => {
+  const handleSaved = (_course: Course) => {
     fetchCourses();
   };
 

@@ -7,3 +7,4 @@ export type Course = {
   createdAt?: string;
   updatedAt?: string;
 };
+

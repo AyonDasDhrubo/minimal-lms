@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
-import axios from "axios";
+import { api } from "@/lib/api";
 import ModuleForm from "@/components/ModuleForm";
 
 interface Module {
@@ -12,20 +12,19 @@ interface Module {
 }
 
 const ModulesPage = () => {
-  const { id: courseId } = useParams();
+  const params = useParams();
+  const courseId = Array.isArray(params.id) ? params.id[0] : params.id; // Fix TypeScript
   const [modules, setModules] = useState<Module[]>([]);
   const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
-    fetchModules();
-  }, []);
+    if (courseId) fetchModules();
+  }, [courseId]);
 
   const fetchModules = async () => {
     try {
-      //const res = await axios.get(`/api/modules?courseId=${courseId}`);
-      const res = await axios.get(`http://localhost:5000/api/modules/${courseId}`);
-
-      setModules(res.data);
+      const res = await api.getModules<Module[]>(courseId!); // non-null assertion
+      setModules(res);
     } catch (err) {
       console.error(err);
     }
@@ -33,7 +32,7 @@ const ModulesPage = () => {
 
   const handleDelete = async (moduleId: string) => {
     try {
-      await axios.delete(`/api/modules/${moduleId}`);
+      await api.deleteModule(moduleId);
       setModules(modules.filter(m => m._id !== moduleId));
     } catch (err) {
       console.error(err);
@@ -49,7 +48,7 @@ const ModulesPage = () => {
       >
         {showForm ? "Cancel" : "Add Module"}
       </button>
-      {showForm && <ModuleForm courseId={courseId} onSuccess={fetchModules} />}
+      {showForm && <ModuleForm courseId={courseId!} onSuccess={fetchModules} />}
       <ul className="space-y-2">
         {modules.map(mod => (
           <li key={mod._id} className="flex justify-between items-center border p-2 rounded">
