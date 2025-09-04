@@ -6,6 +6,7 @@ import cors from "cors";
 import courseRoutes from "./src/routes/courseRoutes.js";
 import moduleRoutes from "./src/routes/module.routes.js";
 import lectureRoutes from "./src/routes/lecture.routes.js";
+import authRoutes from "./src/routes/auth.routes.js";
 
 dotenv.config();
 const app = express();
@@ -19,6 +20,7 @@ app.use("/uploads/pdfs", express.static("uploads/pdfs")); // serve uploaded PDFs
 app.use("/api/courses", courseRoutes);
 app.use("/api/modules", moduleRoutes);
 app.use("/api/lectures", lectureRoutes);
+app.use("/api/auth", authRoutes);
 
 // DB
 mongoose

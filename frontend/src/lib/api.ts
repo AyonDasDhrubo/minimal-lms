@@ -84,4 +84,18 @@ export const api = {
       return res.json();
     }),
   deleteLecture: (id: string) => api.delete(`/api/lectures/${id}`),
+
+
+  login: async (email: string, password: string) => {
+    return fetch(`${API_BASE}/api/auth/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    }).then(async (res) => {
+      if (!res.ok) throw new Error(await res.text());
+      return res.json();
+    });
+  },
+
+
 };
