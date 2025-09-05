@@ -1,4 +1,3 @@
-// D:\Minimal LMS System\backend\src\routes\module.routes.js
 import express from "express";
 import {
   createModule,

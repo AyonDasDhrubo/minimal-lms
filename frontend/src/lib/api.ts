@@ -1,5 +1,3 @@
-// frontend/src/lib/api.ts
-
 export const API_BASE =
   process.env.NEXT_PUBLIC_API_BASE || "http://localhost:5000";
 
@@ -27,6 +25,12 @@ async function request<T>(path: string, options?: RequestInit): Promise<T> {
 export const api = {
   // Generic methods
   get: <T>(path: string) => request<T>(path),
+  post: <T>(path: string, body?: any) =>
+    request<T>(path, {
+      method: "POST",
+      body: body instanceof FormData ? body : body ? JSON.stringify(body) : undefined,
+      headers: body instanceof FormData ? {} : { "Content-Type": "application/json" },
+    }),
   postJson: <T>(path: string, body: unknown) =>
     request<T>(path, {
       method: "POST",
@@ -73,29 +77,12 @@ export const api = {
   // Lectures
   getLecturesByModule: (moduleId: string) =>
     api.get(`/api/lectures/module/${moduleId}`),
-  getAllLectures: () =>
-    api.get("/api/lectures"), // <-- NEW: fetch all lectures
+  getAllLectures: () => api.get("/api/lectures"),
   createLecture: (formData: FormData) =>
-    fetch(`${API_BASE}/api/lectures`, {
-      method: "POST",
-      body: formData,
-    }).then(async (res) => {
-      if (!res.ok) throw new Error(await res.text());
-      return res.json();
-    }),
+    api.post("/api/lectures", formData),
   deleteLecture: (id: string) => api.delete(`/api/lectures/${id}`),
 
-
-  login: async (email: string, password: string) => {
-    return fetch(`${API_BASE}/api/auth/login`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    }).then(async (res) => {
-      if (!res.ok) throw new Error(await res.text());
-      return res.json();
-    });
-  },
-
-
+  // Auth
+  login: (email: string, password: string) =>
+    api.postJson("/api/auth/login", { email, password }),
 };

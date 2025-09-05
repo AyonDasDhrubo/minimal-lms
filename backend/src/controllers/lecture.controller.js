@@ -1,4 +1,3 @@
-// D:\Minimal LMS System\backend\src\controllers\lecture.controller.js
 import Lecture from "../models/Lecture.model.js";
 
 // Create lecture

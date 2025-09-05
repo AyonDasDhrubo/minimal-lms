@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 
 const router = express.Router();
 
-// Hardcoded admin user
+// admin user
 const ADMIN_USER = {
   email: "admin@lms.com",
   password: "admin123",

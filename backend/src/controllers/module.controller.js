@@ -1,4 +1,3 @@
-// D:\Minimal LMS System\backend\src\controllers\module.controller.js
 import Module from "../models/Module.model.js";
 
 // Create module

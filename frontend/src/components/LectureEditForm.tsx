@@ -1,4 +1,3 @@
-// D:\Minimal LMS System\frontend\src\components\LectureEditForm.tsx
 "use client";
 
 import { useState } from "react";

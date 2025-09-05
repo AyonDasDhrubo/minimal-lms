@@ -1,4 +1,3 @@
-// D:\Minimal LMS System\frontend\src\app\admin\courses\[id]\modules\lectures\page.tsx
 "use client";
 
 import { useState, useEffect } from "react";
