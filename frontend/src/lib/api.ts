@@ -1,5 +1,4 @@
-export const API_BASE =
-  process.env.NEXT_PUBLIC_API_BASE || "http://localhost:5000";
+export const API_BASE = "https://minimal-lms-3.onrender.com/api";
 
 async function request<T>(path: string, options?: RequestInit): Promise<T> {
   const res = await fetch(`${API_BASE}${path}`, {
