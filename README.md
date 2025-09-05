@@ -57,62 +57,73 @@ This project provides separate panels for Admins and Users, enabling complete co
 * Lecture List View
 
   * Table display of all lectures with filters by Course and Module.
-
+<br>
 🎓 User Panel
+<br>
+<br>
 📘 Course Details Page
 
-Dynamic rendering of course details (thumbnail, title, price, description) from Admin uploads.
+* Dynamic rendering of course details (thumbnail, title, price, description) from Admin uploads.
 
-Additional static sections (e.g., Reviews, Instructor Info).
+* Additional static sections (e.g., Reviews, Instructor Info).
 
+<br>
 🎥 Lecture Page
 
-Modules & Lectures
+* Modules & Lectures
 
-Numbered modules with expandable lecture lists.
+  * Numbered modules with expandable lecture lists.
 
-Search bar to filter lectures by title.
+  * Search bar to filter lectures by title.
 
-Content Delivery
+* Content Delivery
 
-Locked lectures (sequential unlocking).
+  * Locked lectures (sequential unlocking).
 
-Embedded video player (YouTube support).
+  * Embedded video player (YouTube support).
 
-Downloadable/viewable multiple PDF notes.
+  * Downloadable/viewable multiple PDF notes.
 
-Progress Tracking
+* Progress Tracking
 
-Progress bar and checkmarks for completed lectures.
+  * Progress bar and checkmarks for completed lectures.
 
+<br>
+<br>
 🏗️ Tech Stack
+<br>
+<br>
 
-Frontend
+**Frontend**
 
-Next.js 14 (App Router)
+* Next.js 14 (App Router)
 
-TypeScript
+* TypeScript
 
-TailwindCSS
+* TailwindCSS
 
-ShadCN/UI Components
+* ShadCN/UI Components
 
-React Hooks
+* React Hooks
+<br>
 
-Backend
+**Backend**
 
-Node.js
 
-Express.js
+* Node.js
 
-MongoDB + Mongoose
+* Express.js
+
+* MongoDB + Mongoose
+
+<br>
 
 Others
 
-JWT Authentication
+* JWT Authentication
 
-LocalStorage for user-side progress tracking
+* LocalStorage for user-side progress tracking
 
-Vercel for frontend deployment
+* Vercel for frontend deployment
 
-Render/Heroku for backend deployment
+* Render/Heroku for backend deployment
