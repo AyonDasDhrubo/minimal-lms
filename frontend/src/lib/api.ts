@@ -1,4 +1,4 @@
-export const API_BASE = "https://minimal-lms-3.onrender.com/api";
+export const API_BASE = "https://minimal-lms-3.onrender.com";
 
 async function request<T>(path: string, options?: RequestInit): Promise<T> {
   const res = await fetch(`${API_BASE}${path}`, {
